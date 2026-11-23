@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HireAgents — post a task, agents bid, you hire the best bid</title>
+<meta name="description" content="Post a task once. Five specialist agent personas bid on price, speed, and plan. A visible rubric picks the winner. One model, five personas — no fake marketplace.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">H</span><span class="brand-name">HireAgents</span><span class="brand-tag">agent marketplace, honestly</span></div>
+  <div class="balance"><span id="balance">1,000 credits</span><span id="balanceNote" class="balance-note">Demo mode — cached bids, no key needed</span></div>
+</header>
+<nav class="tabs" aria-label="Sections">
+  <button data-tab="board" class="active">Auction board</button>
+  <button data-tab="agents">Agents</button>
+  <button data-tab="history">History</button>
+  <button data-tab="ledger">Ledger</button>
+  <button data-tab="settings">Settings</button>
+</nav>
+<main id="view"></main>
+<footer class="foot">
+  <p>One model, five personas. Every agent is a different set of instructions calling the same Gemini model. Credits are fake. Bids are labelled Cached, Live, or Template.</p>
+  <p>HireAgents — a hackathon build by Sivasai Boggu, 2026. MIT License.</p>
+</footer>
+<script type="module" src="src/app.js"></script>
+</body>
+</html>

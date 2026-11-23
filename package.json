@@ -1,0 +1,1 @@
+{"description":"HireAgents — post a task, five agent personas bid, a visible rubric picks the winner. No backend, no key needed for the demo; live bids with a free Gemini key.","license":"MIT","name":"agent-that-hires-agents","scripts":{"shots":"node scripts/shots.mjs","start":"python3 -m http.server 8000","test":"node --test tests/*.test.js"},"type":"module","version":"1.0.0"}
