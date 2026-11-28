@@ -290,6 +290,15 @@ function wireBoard() {
 
 function startAuction(task, seed) {
   stopAuctionTimers();
+  // A second task must not orphan the first auction: close any other
+  // running auction first (all its bids revealed, winner decided) so no
+  // task is left stuck in "auction" with its timers gone.
+  state.tasks.forEach((t) => {
+    if (t.id !== task.id && t.status === "auction") {
+      t.status = "decided";
+      (state.bids[t.id] || []).forEach((b) => { b.revealed = true; });
+    }
+  });
   task.status = "auction";
   const baseBids = seed ? seed.bids.map((b) => ({ ...b, source: "cached" })) : makeTemplateBids(task).map((b) => ({ ...b, source: "template" }));
   state.bids[task.id] = baseBids.map((b) => ({ ...b, id: uid(), revealed: false }));
@@ -440,7 +449,11 @@ function askRevision() {
   const seed = SEEDED_TASKS.find((t) => t.id === task.id);
   const out = state.outputs[task.id];
   const bid = (state.bids[task.id] || []).find((b) => b.personaId === task.winnerId);
-  const revision = seed && SEEDED_OUTPUTS[seed.id] ? SEEDED_OUTPUTS[seed.id].revision : makeTemplateOutput(task, bid).revision;
+  // The seeded revision belongs to the seeded winner only. Hiring anyone
+  // else on a seeded task gets the template revision, matching the
+  // template output already shown — never someone else's revision.
+  const seededOut = seed && task.winnerId === SEEDED_OUTPUTS[seed.id].winnerId ? SEEDED_OUTPUTS[seed.id] : null;
+  const revision = seededOut ? seededOut.revision : makeTemplateOutput(task, bid).revision;
   out.body = out.body + "\n\n---\n\n" + revision;
   out.visibleBody = out.body;
   save(); render();
